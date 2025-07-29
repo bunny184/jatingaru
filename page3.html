@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Page 3 – Confetti</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="container">
+    <h1>Do you know who is he?🤔</h1>
+    <img src="C:\Users\lanka\OneDrive\Desktop\birthday\Hero.jpeg" alt="Birthday Person">
+    <p>🤔</p>
+    <button class="btn" onclick="navigateTo('page4.html')">if you want to know about him just click it👇</button>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const c = document.getElementById("confetti"), ctx = c.getContext("2d");
+    c.width = innerWidth; c.height = innerHeight;
+    const confetti = Array.from({ length: 100 }).map(() => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      w: 5 + Math.random() * 5,
+      h: 8 + Math.random() * 8,
+      dy: 1 + Math.random() * 3,
+      color: `hsl(${Math.random() * 360}, 80%, 60%)`
+    }));
+    function draw() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      confetti.forEach(p => {
+        p.y += p.dy;
+        if (p.y > c.height) p.y = -10;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

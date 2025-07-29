@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page 6 – Glow Gradient Starfield with Blast</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5ed, #2193b0);
+      background-size: 600% 600%;
+      animation: gradientShift 15s ease infinite;
+      z-index: -3;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+
+    .container img {
+      width: 200px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px white;
+    }
+
+    .btn {
+      margin: 10px 5px 0;
+      padding: 10px 25px;
+      font-size: 18px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid white;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.4);
+    }
+
+    .blast, .corner-blast {
+      position: fixed;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff, #ffcc00, #ff0066, transparent);
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+      animation: blastAnim 1.2s ease-out forwards;
+    }
+
+    #blast { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    #corner-blast-left { bottom: 0; left: 0; transform: translate(-50%, 50%); }
+    #corner-blast-right { bottom: 0; right: 0; transform: translate(50%, 50%); }
+
+    @keyframes blastAnim {
+      0% { width: 0; height: 0; opacity: 1; }
+      50% { width: 300px; height: 300px; opacity: 0.8; }
+      100% { width: 800px; height: 800px; opacity: 0; }
+    }
+
+    .balloon {
+      position: fixed;
+      font-size: 30px;
+      animation: floatUp 3s ease-out forwards;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-200px) scale(0.6); }
+    }
+
+    #falling-letters {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .fall-letter {
+      position: absolute;
+      font-size: 40px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { top: -50px; opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Music -->
+  <audio id="bg-music" loop>
+    <source src="WhatsApp Audio 2025-07-29 at 5.05.33 PM.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Blast Sound -->
+  <audio id="blast-sound">
+    <source src="blast.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Sparkle Canvas -->
+  <canvas id="sparkle"></canvas>
+
+  <!-- Blast Effects -->
+  <div class="blast" id="blast"></div>
+  <div class="corner-blast" id="corner-blast-left"></div>
+  <div class="corner-blast" id="corner-blast-right"></div>
+
+  <!-- Falling Letters -->
+  <div id="falling-letters"></div>
+
+  <!-- Content -->
+  <div class="container">
+    <h1>Happiest Birthday Jatin Garu👑</h1>
+    <img src="C:\Users\lanka\OneDrive\Desktop\birthday\main.jpeg" alt="Birthday Person">
+    <p>shining star!🌟</p>
+    <button class="btn" onclick="playMusic()">🎵 Play Music</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("sparkle");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let stars = Array.from({ length: 150 }, () => createStar());
+
+    function createStar() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.2 + 0.5,
+        alpha: Math.random(),
+        delta: Math.random() * 0.02 + 0.005
+      };
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+        ctx.shadowColor = 'white';
+        ctx.shadowBlur = 5;
+        ctx.fill();
+
+        star.alpha += star.delta;
+        if (star.alpha <= 0 || star.alpha >= 1) {
+          star.delta *= -1;
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+
+    function playMusic() {
+      const music = document.getElementById("bg-music");
+      music.volume = 0.5;
+      music.play();
+    }
+
+    function pauseMusic() {
+      const music = document.getElementById("bg-music");
+      music.pause();
+    }
+
+    window.addEventListener("load", () => {
+      document.getElementById("blast").style.display = "block";
+      document.getElementById("corner-blast-left").style.display = "block";
+      document.getElementById("corner-blast-right").style.display = "block";
+
+      document.getElementById("blast-sound").play();
+
+      const msg = "🎈HAPPY BIRTHDAY🎂";
+      for (let i = 0; i < msg.length; i++) {
+        let span = document.createElement("span");
+        span.className = "fall-letter";
+        span.innerText = msg[i];
+        span.style.left = `${Math.random() * 90}%`;
+        span.style.animationDelay = `${Math.random()}s`;
+        document.getElementById("falling-letters").appendChild(span);
+      }
+
+      setTimeout(() => {
+        document.getElementById("blast").remove();
+        document.getElementById("corner-blast-left").remove();
+        document.getElementById("corner-blast-right").remove();
+      }, 1500);
+    });
+
+    function spawnBalloons(x, y) {
+      const emojis = ['🎈', '🎉', '🎂'];
+      for (let i = 0; i < 2; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.style.left = `${x + Math.random() * 30 - 15}px`;
+        balloon.style.top = `${y + Math.random() * 30 - 15}px`;
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 3000);
+      }
+    }
+
+    document.addEventListener("mousemove", (e) => {
+      spawnBalloons(e.pageX, e.pageY);
+    });
+
+    document.addEventListener("touchmove", (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        spawnBalloons(touch.pageX, touch.pageY);
+      }
+    });
+  </script>
+</body>
+</html>

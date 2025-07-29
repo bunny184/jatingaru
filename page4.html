@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Page 4 – Finale</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="container">
+    <h1>I'll explain about him.</h1>
+    <p>The first time I saw him was on August 9, 2023.
+He was standing near the podium, explaining something.
+At that moment, I thought to myself, “looks good.” 
+Later, we got into the same project batch.
+That day, I thought, “He must be a topper.”
+And yes, nijanga ne aayana burra pedhadhi ani prove chesaru.
+After a few months, he started texting me.
+I still remember...
+The first gift from him was an earpods case 🎁
+And many sweet little surprises he gave me after that.</p>
+    <div style="font-size:1.5em; margin-top:20px;">
+    </div>
+    <button class="btn" onclick="navigateTo('page5.html')">continue</button>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const c = document.getElementById("stars"), ctx = c.getContext("2d");
+    c.width = innerWidth; c.height = innerHeight;
+    const stars = Array.from({ length: 120 }).map(() => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      z: Math.random() * c.width
+    }));
+    function drawStars() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, c.width, c.height);
+      stars.forEach(s => {
+        s.z -= 2;
+        if (s.z <= 0) s.z = c.width;
+        const sx = (s.x - c.width / 2) * (c.width / s.z) + c.width / 2;
+        const sy = (s.y - c.height / 2) * (c.width / s.z) + c.height / 2;
+        const r = c.width / s.z;
+        ctx.fillStyle = "white";
+        ctx.beginPath(); ctx.arc(sx, sy, r, 0, 2 * Math.PI); ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Page 2 – Balloons Up!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="balloons"></canvas>
+  <div class="container">
+    <h1><i>Hi andi ee roju oka special day adhi meeku telusa ,telisivundadhu lendi nenu last lo cheptha chudandi</i></h1>
+    <button class="btn" onclick="navigateTo('page3.html')">last varaku vellali ante click cheyali😁</button>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const c = document.getElementById("balloons"), ctx = c.getContext("2d");
+    c.width = innerWidth; c.height = innerHeight;
+    const balloons = Array.from({ length: 30 }).map(() => ({
+      x: Math.random() * c.width,
+      y: c.height + Math.random() * c.height,
+      r: 20 + Math.random() * 20,
+      speed: 1 + Math.random() * 2,
+      color: `hsl(${Math.random() * 360}, 70%, 60%)`
+    }));
+    function draw() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      balloons.forEach(b => {
+        b.y -= b.speed;
+        if (b.y < -50) b.y = c.height + 50;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fillStyle = b.color;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

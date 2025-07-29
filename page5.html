@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Page 5 – Sparkles</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="sparkle"></canvas>
+  <div class="container">
+    <p>Aa april 28 unforegetable day andi .tharvatha DSD exam ela rasano kuda teleedhu ,adhi antha past anukondi.eppudu aayana kaludham anna evaryna chustharu ani bhayam andi naku ,adhokate kadhu naku kuda kalavalante edho teliyani koncham bhayam andi kani DD pakkana vunte assalu bhayam veyadhu. ma room pakkanunchi enni sarlo thirigaru andi aayana papam ma juniors kosam , kani evaru padaledhu. kani, Aayanaki chala opika ekkuva andi nenu ekkada vunna telusukoni vastharu vachina upayogam ledhu ani telisina kuda. na kashtalni opika ga vintaru eppudu ,Aayana  na burden bearer andi and last ,That last day of college and our selfie will always stay in my heart 📸 . He made college days more memorable. last lo oka chinna quote andi [Friends like 🫵 are hard to find and impossible to forget].   
+    Thank you for being a beautiful little part in my journey andi✨.       Why am I telling you all this today?
+Bcz I just want you to remember our journey on this day.
+
+Thanks for reading all this with so much patience☺️.
+</p>
+    <button class="btn" onclick="navigateTo('page6.html')">and finally</button>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const c = document.getElementById("sparkle"), ctx = c.getContext("2d");
+    c.width = innerWidth; c.height = innerHeight;
+    const sparks = Array.from({ length: 80 }).map(() => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      r: Math.random() * 2,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5
+    }));
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      ctx.fillRect(0, 0, c.width, c.height);
+      sparks.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > c.width || p.y < 0 || p.y > c.height) {
+          p.x = Math.random() * c.width;
+          p.y = Math.random() * c.height;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

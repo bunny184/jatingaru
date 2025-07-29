@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Page 1 – Warp Starfield</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="container">
+    <h1>Welcome to the smiling star😀 universe!👑</h1>
+    <button class="btn" onclick="navigateTo('page2.html')">✨WELCOME✨</button>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const c = document.getElementById("stars"), ctx = c.getContext("2d");
+    c.width = innerWidth; c.height = innerHeight;
+    const stars = Array.from({ length: 100 }).map(() => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      z: Math.random() * c.width
+    }));
+    function drawStars() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, c.width, c.height);
+      stars.forEach(s => {
+        s.z -= 2;
+        if (s.z <= 0) s.z = c.width;
+        const sx = (s.x - c.width / 2) * (c.width / s.z) + c.width / 2;
+        const sy = (s.y - c.height / 2) * (c.width / s.z) + c.height / 2;
+        const r = c.width / s.z;
+        ctx.fillStyle = "white";
+        ctx.beginPath(); ctx.arc(sx, sy, r, 0, 2 * Math.PI); ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+  </script>
+</body>
+</html>
